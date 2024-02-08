@@ -7,56 +7,107 @@
  * board fills (tie)
  */
 
-const WIDTH = 7;
-const HEIGHT = 6;
+//const WIDTH = 7;
+//const HEIGHT = 6;
 
 let currPlayer = 1; // active player: 1 or 2
-const board = []; // array of rows, each row is array of cells  (board[y][x])
+//const board = []; // array of rows, each row is array of cells  (board[y][x])
 // (board[5][0] would be the bottom-left spot on the board)
 
 /** makeBoard: fill in global `board`:
  *    board = array of rows, each row is array of cells  (board[y][x])
  */
+// function makeBoard() {
+//   for (let y = 0; y < HEIGHT; y++) {
+//     const emptyRow = Array(WIDTH).fill(null);
+//     board.push(emptyRow);
+//   }
+// }
 
-function makeBoard() {
-  for (let y = 0; y < HEIGHT; y++) {
-    const emptyRow = Array(WIDTH).fill(null);
-    board.push(emptyRow);
+class Game {
+  constructor(width, height, board) {
+    this.width = width;
+    this.height = height;
+    this.board = board;
   }
+
+  makeBoard() {
+    for (let y = 0; y < this.height; y++) {
+      const emptyRow = Array(this.width).fill(null);
+      this.board.push(emptyRow);
+    }
+    return this.board;
+  }
+
+  makeHtmlBoard() {
+    const htmlBoard = document.getElementById("board");
+
+    const top = document.createElement("tr");
+    top.setAttribute("id", "column-top");
+
+    for (let x = 0; x < this.width; x++) {
+      const headCell = document.createElement("td");
+      headCell.setAttribute("id", `top-${x}`);
+      headCell.addEventListener("click", handleClick);
+      top.append(headCell);
+    }
+    htmlBoard.append(top);
+
+    for (let y = 0; y < this.height; y++) {
+      const row = document.createElement('tr');
+
+      for (let x = 0; x < this.width; x++) {
+        const cell = document.createElement('td');
+        cell.setAttribute('id', `c-${y}-${x}`);
+        row.append(cell);
+      }
+
+      htmlBoard.append(row);
+    }
+  }
+
+  // start() {
+  //   this.makeBoard();
+  //   this.makeHtmlBoard();
+  // }
+
 }
+
+
+
 
 /** makeHtmlBoard: make HTML table and row of column tops. */
 
-function makeHtmlBoard() {
-  const htmlBoard = document.getElementById("board");
+// function makeHtmlBoard() {
+//   const htmlBoard = document.getElementById("board");
 
-  // TODO: add comment for this code
-  const top = document.createElement("tr");
-  top.setAttribute("id", "column-top");
+//   // TODO: add comment for this code
+//   const top = document.createElement("tr");
+//   top.setAttribute("id", "column-top");
 
-  for (let x = 0; x < WIDTH; x++) {
-    const headCell = document.createElement("td");
-    headCell.setAttribute("id", `top-${x}`);
-    headCell.addEventListener("click", handleClick);
-    top.append(headCell);
-  }
-  htmlBoard.append(top);
+//   for (let x = 0; x < WIDTH; x++) {
+//     const headCell = document.createElement("td");
+//     headCell.setAttribute("id", `top-${x}`);
+//     headCell.addEventListener("click", handleClick);
+//     top.append(headCell);
+//   }
+//   htmlBoard.append(top);
 
-  // dynamically creates the main part of html board
-  // uses HEIGHT to create table rows
-  // uses WIDTH to create table cells for each row
-  for (let y = 0; y < HEIGHT; y++) {
-    const row = document.createElement('tr');
+//   // dynamically creates the main part of html board
+//   // uses HEIGHT to create table rows
+//   // uses WIDTH to create table cells for each row
+//   for (let y = 0; y < HEIGHT; y++) {
+//     const row = document.createElement('tr');
 
-    for (let x = 0; x < WIDTH; x++) {
-      const cell = document.createElement('td');
-      cell.setAttribute('id', `c-${y}-${x}`);
-      row.append(cell);
-    }
+//     for (let x = 0; x < WIDTH; x++) {
+//       const cell = document.createElement('td');
+//       cell.setAttribute('id', `c-${y}-${x}`);
+//       row.append(cell);
+//     }
 
-    htmlBoard.append(row);
-  }
-}
+//     htmlBoard.append(row);
+//   }
+// }
 
 /** findSpotForCol: given column x, return y coordinate of furthest-down spot
  *    (return null if filled) */
@@ -156,9 +207,12 @@ function handleClick(evt) {
 
 /** Start game. */
 
-function start() {
-  makeBoard();
-  makeHtmlBoard();
-}
+// function start() {
+//   makeBoard();
+//   makeHtmlBoard();
+// }
 
-start();
+// start();
+
+const gameStart = new Game(6, 7, []);
+gameStart.makeBoard();
