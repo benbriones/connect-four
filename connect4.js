@@ -94,6 +94,25 @@ class Game {
   }
 
   checkForWin() {
+    const boardHeight = this.height;
+    const boardLength = this.width;
+    const boardGame = this.board;
+    const currentPlayer = this.currPlayer;
+
+    // arrow solution
+    // const realThis = this
+
+    // const _win = cells => {
+    //   return cells.every(
+    //     ([y, x]) =>
+    //         y >= 0 &&
+    //         y < this.height &&
+    //         x >= 0 &&
+    //         x < this.width &&
+    //         this.board[y][x] === this.currPlayer
+    //   )
+    // }
+
     function _win(cells) {
 
       // Check four cells to see if they're all color of current player
@@ -102,10 +121,10 @@ class Game {
       return cells.every(
           ([y, x]) =>
               y >= 0 &&
-              y < this.height &&
+              y < boardHeight && // change to realThis.height
               x >= 0 &&
-              x < this.width &&
-              this.board[y][x] === this.currPlayer
+              x < boardLength &&
+              boardGame[y][x] === currentPlayer
       );
     }
 
@@ -119,7 +138,7 @@ class Game {
         const diagDL = [[y, x], [y + 1, x - 1], [y + 2, x - 2], [y + 3, x - 3]];
 
         // find winner (only checking each win-possibility as needed)
-        if (_win(horiz) || _win(vert) || _win(diagDR) || _win(diagDL)) {
+        if (_win(horiz) || _win(vert) || _win(diagDR) || _win(diagDL)) { // can also do _win.call(this, horiz) || _win.call(this, vert)...
           return true;
         }
       }
@@ -143,12 +162,12 @@ class Game {
 
     // check for win
     if (this.checkForWin()) {
-      return endGame(`Player ${this.currPlayer} won!`);
+      return this.endGame(`Player ${this.currPlayer} won!`);
     }
 
     // check for tie: if top row is filled, board is filled
     if (this.board[0].every(cell => cell !== null)) {
-      return endGame('Tie!');
+      return this.endGame('Tie!');
     }
 
     // switch players
